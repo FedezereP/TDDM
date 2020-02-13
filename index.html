@@ -1,0 +1,58 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nombre Tienda</title>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous">
+        </script>
+
+    <link rel="stylesheet" href="https://unpkg.com/onsenui/css/onsenui.css">
+    <link rel="stylesheet" href="https://unpkg.com/onsenui/css/onsen-css-components.min.css">
+    <script src="https://unpkg.com/onsenui/js/onsenui.min.js"></script>
+    <script src="functions.js"></script>
+</head>
+
+<body>
+    <ons-navigator page="t_registro" id="nav"></ons-navigator>
+
+    <!-- Registro de usuarios -->
+    <template id="t_registro">
+        <ons-page id="p_registro">
+            <h1>Registro de Usuarios</h1>
+            <label for="email">Email:</label>
+            <p><input class="text-input text-input--material" type="email" id="email"></p>
+            <label for="password"></label>
+            <p><input class="text-input text-input--material" type="password" id="password"></p>
+            <ons-button id="btn_registrar">Registrarse</ons-button>
+        </ons-page>
+    </template>
+
+    <!-- Login -->
+    <template id="t_login">
+        <ons-page id="p_login">
+            <h1>Login</h1>
+
+        </ons-page>
+    </template>
+
+    <!-- Listado de Productos con Filtros -->
+    <template id="t_listado">
+        <ons-page id="p_listado">
+            <h1>Listado de Productos</h1>
+            
+        </ons-page>
+    </template>
+
+
+
+
+
+
+
+
+
+</body>
+
+</html>
