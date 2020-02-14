@@ -13,7 +13,7 @@ ons.ready(function () {
 
             // Invocar API POST usuario
             datos = { "email": ema, "password": pwd };
-            datos = JSON.stringify(datos);
+            datos = JSON.parse(datos); // parse en vez de stringify ??
             $.ajax({
                 url: "https://tiendanatural2020.herokuapp.com/api/user/register",
                 type: "POST",
@@ -22,20 +22,15 @@ ons.ready(function () {
                 success: function (respuesta) {
                     ons.notification.toast("El usuario se registro correctamente", { "timeout": 3000 });
 
-                    /*$.ajaxSetup({
-                        headers: {
-                            token: respuesta.token
-                        }
-                    });
 
-                    var usuario = JSON.stringify(respuesta.descripcion);
+                    /*var usuario = JSON.stringify(respuesta.descripcion);
                     sessionStorage.setItem("ema", usuario);
                     var nav = document.getElementById("nav");
                     nav.pushPage("t_listado");*/
                 },
 
                 error: function (xml, err, status) {
-                    ons.notification.toast(xml.responseJSON.descripcion, { "timeout": 3000 });
+                    ons.notification.toast(xml.responseJSON.data.error.errors.message, { "timeout": 3000 });
                 }
             });
 
