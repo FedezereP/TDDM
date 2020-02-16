@@ -24,9 +24,9 @@ ons.ready(function () {
                 data: datos,
                 success: function (respuesta) {
                     ons.notification.toast("El usuario se registro correctamente", { "timeout": 3000 });
-
-
-                    var usuario = JSON.stringify(respuesta);
+                    
+                    // var usuario = JSON.stringify(respuesta);  ---------> haciendo el stringify no muestra el mail
+                    var usuario = respuesta;
                     sessionStorage.setItem("usr", usuario);
                     var nav = document.getElementById("nav");
                     nav.pushPage("t_productos");

@@ -59,11 +59,11 @@
                     }
                 }*/
                 ons.getScriptPage().onShow = function () {
-                    /*
-                    var usuario = sessionStorage.getItem("usuario");
+                    
+                    var usuario = sessionStorage.getItem("usr");
                     usuario = JSON.parse(usuario);
                     $("#saludo").html("Hola <strong>" + usuario.email + "</strong>");
-                    */
+                    
                     $.ajax({
                         url: "https://tiendanatural2020.herokuapp.com/api/product/all",
                         type: "GET",
@@ -89,9 +89,6 @@
                         }
 
                     });
-
-
-
                 }
             </script>
             <section>
@@ -99,13 +96,44 @@
                 <p id="saludo"></p>
                 <ons-list id="l_listado"></ons-list>
             </section>
-
-
-
-
         </ons-page>
     </template>
+    <template id="t_infoproducto">
+        <ons-page id="p_infoproducto">
+            <script>
+                ons.getScriptPage().onInit = function(){
+                    $(document).on("click", "#btn_qr", function(){
+                        ons.notification.alert("Click en QR", {title:"SCAN QR"});
+                    });
+                }
+                ons.getScriptPage().onShow = function(){
+                    var id_producto = this.data._id;
+                  
+                    // Pendiente, surge la duda ya que no tenemos url API de info por producto
 
+
+
+                }
+            </script>
+            <section>
+                <ons-card>
+                    <img id="producto_imagen" src="" style="width: 100%">
+                    <div class="title">
+                        <p id="producto_nombre"></p>
+                    </div>
+                    <div class="content">
+                    <p id="producto_descripcion"></p>
+                    <ons-list>
+                        <ons-list-item>
+                            <span id="producto_precio"></span>
+                        </ons-list-item>
+                    </ons-list>
+                    </div>
+                </ons-card>
+                <p><ons-button id="btn_qr" modifier="large--cta">SCAN QR</ons-button></p>
+            </section>
+        </ons-page>
+    </template>
 
 
 
