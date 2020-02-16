@@ -26,10 +26,10 @@ ons.ready(function () {
                     ons.notification.toast("El usuario se registro correctamente", { "timeout": 3000 });
 
 
-                    /*var usuario = JSON.stringify(respuesta.descripcion);
-                    sessionStorage.setItem("ema", usuario);
+                    var usuario = JSON.stringify(respuesta);
+                    sessionStorage.setItem("usuario", usuario);
                     var nav = document.getElementById("nav");
-                    nav.pushPage("t_listado");*/
+                    nav.pushPage("t_productos");
                 },
 
                 error: function (xml, err, status) {

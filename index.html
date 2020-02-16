@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="https://unpkg.com/onsenui/css/onsen-css-components.min.css">
     <script src="https://unpkg.com/onsenui/js/onsenui.min.js"></script>
     <script src="functions.js"></script>
+    <!-- <link rel="stylesheet" href="styles.css"> -->
 </head>
 
 <body>
@@ -35,15 +36,73 @@
     <template id="t_login">
         <ons-page id="p_login">
             <h1>Login</h1>
-
+            <label for="l_email">Email:</label>
+            <p><input class="text-input text-input--material" type="text" id="l_email"></p>
+            <label for="l_password">Contrase&ntilde;a:</label>
+            <p><input class="text-input text-input--material" type="password" id="l_password"></p>
+            <ons-button id="btn_login">Log in</ons-button>
+            <ons-button id="btn_registrarme" modifier="quiet">Registrarme</ons-button>
         </ons-page>
     </template>
 
     <!-- Listado de Productos con Filtros -->
-    <template id="t_listado">
-        <ons-page id="p_listado">
-            <h1>Listado de Productos</h1>
-            
+    <template id="t_productos">
+        <ons-page id="p_productos">
+            <script>
+                ons.getScriptPage().onInit = function () {
+                    // Acceder a un producto particular
+                    $(document).on("Click", ".listado_productos"), function(){
+                        var id_local = $(this).data("id");
+                        var nav = document.getElementById("nav");
+                        //  Redireccionar a informacion de un producto
+                        nav.pushPage("t_infoproducto", {data:{id:id_local}});
+                    }
+                }
+                ons.getScriptPage().onShow = function () {
+                    /*
+                    var usuario = sessionStorage.getItem("usuario");
+                    usuario = JSON.parse(usuario);
+                    $("#saludo").html("Hola <strong>" + usuario.email + "</strong>");
+                    */
+                    $.ajax({
+                        url: "https://tiendanatural2020.herokuapp.com/api/product/all",
+                        type: "GET",
+                        dataType: "json",
+                        success: function (respuesta) {
+                            console.log(respuesta);
+                            var item = "";
+                            $.each(respuesta, function (k, local) {
+                                item = '<ons-list-item modifier="chevron longdivider" tappable tap-background-color="#3ED47A"\
+                                 class="listado_locales" data-id="'+ local.id + '"><div class="left"><img class="list-item__thumbnail"\
+                                     src="'+ local.photo + '"></div>\
+                                <div class="center">\
+                                <span class="list-item__title">'+ local.name + '</span>\
+                                <span class="list-item__subtitle">'+ local.description + '</span>\
+                                <span class="list-item__subtitle">'+ local.price + '</span>\
+                                </div>\
+                                </ons-list-item>';
+                                $("").append(item);
+                            });
+                        },
+                        error: function (xml, err, status) {
+                            ons.notification.toast(xml.responseJSON.data.error.errors.email.message, { "timeout": 3000 });
+                        }
+
+                    });
+
+
+
+                }
+            </script>
+            <section>
+                <h1>Listado de Productos</h1>
+                <p id="saludo"></p>
+                <ons-list id="l_listado"></ons-list>
+            </section>
+
+
+
+
         </ons-page>
     </template>
 
