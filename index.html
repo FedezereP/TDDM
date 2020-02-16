@@ -49,7 +49,7 @@
     <template id="t_productos">
         <ons-page id="p_productos">
             <script>
-                ons.getScriptPage().onInit = function () {
+                /*ons.getScriptPage().onInit = function () {
                     // Acceder a un producto particular
                     $(document).on("Click", ".listado_productos"), function(){
                         var id_local = $(this).data("id");
@@ -57,7 +57,7 @@
                         //  Redireccionar a informacion de un producto
                         nav.pushPage("t_infoproducto", {data:{id:id_local}});
                     }
-                }
+                }*/
                 ons.getScriptPage().onShow = function () {
                     /*
                     var usuario = sessionStorage.getItem("usuario");
@@ -71,17 +71,17 @@
                         success: function (respuesta) {
                             console.log(respuesta);
                             var item = "";
-                            $.each(respuesta, function (k, local) {
+                            $.each(respuesta, function (k, producto) {
                                 item = '<ons-list-item modifier="chevron longdivider" tappable tap-background-color="#3ED47A"\
-                                 class="listado_locales" data-id="'+ local.id + '"><div class="left"><img class="list-item__thumbnail"\
-                                     src="'+ local.photo + '"></div>\
+                                 class="listado_locales" data-id="'+ producto.id + '"><div class="left"><img class="list-item__thumbnail"\
+                                     src="'+ producto.photo + '"></div>\
                                 <div class="center">\
-                                <span class="list-item__title">'+ local.name + '</span>\
-                                <span class="list-item__subtitle">'+ local.description + '</span>\
-                                <span class="list-item__subtitle">'+ local.price + '</span>\
+                                <span class="list-item__title">'+ producto.name + '</span>\
+                                <span class="list-item__subtitle">'+ producto.description + '</span>\
+                                <span class="list-item__subtitle">$ '+ producto.price + '</span>\
                                 </div>\
                                 </ons-list-item>';
-                                $("").append(item);
+                                $("#l_listado").append(item);
                             });
                         },
                         error: function (xml, err, status) {

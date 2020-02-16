@@ -27,7 +27,7 @@ ons.ready(function () {
 
 
                     var usuario = JSON.stringify(respuesta);
-                    sessionStorage.setItem("usuario", usuario);
+                    sessionStorage.setItem("usr", usuario);
                     var nav = document.getElementById("nav");
                     nav.pushPage("t_productos");
                 },
