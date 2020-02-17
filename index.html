@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NombreTiendaOnline</title>
-    <meta name="description" content="NombreTiendaOnline es una aplicaci&oacute;n que permite a los 
+    <title>ProductosNaturales</title>
+    <meta name="description" content="ProductosNaturales es una aplicaci&oacute;n que permite a los 
     usuarios buscar sucursales que vendan determinados productos naturales.">
     <meta name="author" content="Sofia Bruno y Federico Perez">
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"
@@ -20,20 +20,21 @@
 <body>
     <ons-navigator page="t_inicio" id="nav"></ons-navigator>
 
+    <!-- Login -->
     <template id="t_inicio">
         <ons-page>
             <ons-card>
-                <img src="img\inicio.png" alt="Onsen UI" style="width: 100%">
+                <img src="img\inicio.png" alt="Logo de ProductosNaturales" style="width: 100%">
 
                 <div class="content">
                     <h1>Iniciar Sesi&oacute;n</h1>
-                    <label for="l_email">Email:</label>
-                    <p><input class="text-input text-input--material" type="text" id="l_email"></p>
-                    <label for="l_password">Contrase&ntilde;a:</label>
-                    <p><input class="text-input text-input--material" type="password" id="l_password"></p>
+                    <!-- <label for="l_email">Email:</label> -->
+                    <p><input class="text-input text-input--material" type="text" id="l_email" placeholder="Email"></p>
+                    <!-- <label for="l_password">Contrase&ntilde;a:</label> -->
+                    <p><input class="text-input text-input--material" type="password" id="l_password" placeholder="Contrase&ntilde;a"></p>
                     <ons-button id="btn_iniciar" style="background-color: green;">Ingresar</ons-button>
                 </div>
-                <div>
+                <div class="content">
                     <button id="btn_registrar" class="button button--material--flat" style="color: green">Crear una
                         cuenta</button>
                 </div>
@@ -47,7 +48,7 @@
         <ons-page id="p_registro">
             <script>
                 ons.getScriptPage().onInit = function () {
-                    $("#btn_registrar").on("click", function () {
+                    $("#btn_registrarme").on("click", function () {
                         var ema = $("#email").val();
                         var pwd = $("#password").val();
 
@@ -107,7 +108,7 @@
                 <p><input class="text-input text-input--material" type="text" id="email"></p>
                 <label for="password">Contrase&ntilde;a:</label>
                 <p><input class="text-input text-input--material" type="password" id="password"></p>
-                <ons-button id="btn_registrar" style="background-color: green;">Registrarse</ons-button>
+                <ons-button id="btn_registrarme" style="background-color: green;">Registrarse</ons-button>
             </ons-card>
         </ons-page>
     </template>
