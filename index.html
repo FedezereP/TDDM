@@ -18,7 +18,29 @@
 </head>
 
 <body>
-    <ons-navigator page="t_registro" id="nav"></ons-navigator>
+    <ons-navigator page="t_inicio" id="nav"></ons-navigator>
+
+    <template id="t_inicio">
+        <ons-page>
+            <ons-card>
+                <img src="img\inicio.png" alt="Onsen UI" style="width: 100%">
+
+                <div class="content">
+                    <h1>Iniciar Sesi&oacute;n</h1>
+                    <label for="l_email">Email:</label>
+                    <p><input class="text-input text-input--material" type="text" id="l_email"></p>
+                    <label for="l_password">Contrase&ntilde;a:</label>
+                    <p><input class="text-input text-input--material" type="password" id="l_password"></p>
+                    <ons-button id="btn_iniciar" style="background-color: green;">Ingresar</ons-button>
+                </div>
+                <div>
+                    <button class="button button--material--flat" style="color: green">Crear una cuenta</button>
+                </div>
+            </ons-card>
+
+        </ons-page>
+    </template>
+
 
     <!-- Registro de usuarios -->
     <template id="t_registro">
@@ -47,6 +69,7 @@
         </ons-page>
     </template>
 
+
     <!-- Listado de Productos con Filtros -->
     <template id="t_productos">
         <ons-page id="p_productos">
@@ -61,11 +84,11 @@
                     }
                 }*/
                 ons.getScriptPage().onShow = function () {
-                    
+
                     var usuario = sessionStorage.getItem("usr");
                     usuario = JSON.parse(usuario);
                     $("#saludo").html("Hola <strong>" + usuario.email + "</strong>");
-                    
+
                     $.ajax({
                         url: "https://tiendanatural2020.herokuapp.com/api/product/all",
                         type: "GET",
@@ -106,14 +129,14 @@
     <template id="t_infoproducto">
         <ons-page id="p_infoproducto">
             <script>
-                ons.getScriptPage().onInit = function(){
-                    $(document).on("click", "#btn_qr", function(){
-                        ons.notification.alert("Click en QR", {title:"SCAN QR"});
+                ons.getScriptPage().onInit = function () {
+                    $(document).on("click", "#btn_qr", function () {
+                        ons.notification.alert("Click en QR", { title: "SCAN QR" });
                     });
                 }
-                ons.getScriptPage().onShow = function(){
+                ons.getScriptPage().onShow = function () {
                     var id_producto = this.data._id;
-                  
+
                     // Pendiente, surge la duda ya que no tenemos url API de info por producto
 
 
@@ -127,15 +150,17 @@
                         <p id="producto_nombre"></p>
                     </div>
                     <div class="content">
-                    <p id="producto_descripcion"></p>
-                    <ons-list>
-                        <ons-list-item>
-                            <span id="producto_precio"></span>
-                        </ons-list-item>
-                    </ons-list>
+                        <p id="producto_descripcion"></p>
+                        <ons-list>
+                            <ons-list-item>
+                                <span id="producto_precio"></span>
+                            </ons-list-item>
+                        </ons-list>
                     </div>
                 </ons-card>
-                <p><ons-button id="btn_qr" modifier="large--cta">SCAN QR</ons-button></p>
+                <p>
+                    <ons-button id="btn_qr" modifier="large--cta">SCAN QR</ons-button>
+                </p>
             </section>
         </ons-page>
     </template>
@@ -146,7 +171,6 @@
 
 
     <!-- Ver información de producto en sucursal -->
-
 
 
 
