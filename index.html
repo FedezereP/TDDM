@@ -34,10 +34,10 @@
                     <ons-button id="btn_iniciar" style="background-color: green;">Ingresar</ons-button>
                 </div>
                 <div>
-                    <button id="btn_registrar" class="button button--material--flat" style="color: green">Crear una cuenta</button>
+                    <button id="btn_registrar" class="button button--material--flat" style="color: green">Crear una
+                        cuenta</button>
                 </div>
             </ons-card>
-
         </ons-page>
     </template>
 
@@ -45,29 +45,74 @@
     <!-- Registro de usuarios -->
     <template id="t_registro">
         <ons-page id="p_registro">
-            <h1>Registro de Usuarios</h1>
-            <label for="email">Email:</label>
-            <p><input class="text-input text-input--material" type="text" id="email"></p>
-            <label for="password">Contrase&ntilde;a:</label>
-            <p><input class="text-input text-input--material" type="password" id="password"></p>
-            <ons-button id="btn_registrar">Registrarse</ons-button>
+            <script>
+                ons.getScriptPage().onInit = function () {
+                    $("#btn_registrar").on("click", function () {
+                        var ema = $("#email").val();
+                        var pwd = $("#password").val();
+
+                        try {
+                            if (!ema) {
+                                throw "Ingrese email para continuar";
+                                //pregunta: de donde sale la validacion que obliga que sea formato de mail?
+                            }
+                            if (!pwd) {
+                                throw "Ingrese contrase&ntilde;a para continuar";
+                            }
+                            if (pwd.length < 8) {
+                                throw "La contrase&ntilde;a debe contener 8 caracteres como m&iacute;nimo";
+                            }
+
+                            // Invocar API POST usuario
+                            datos = { "email": ema, "password": pwd };
+
+                            $.ajax({
+                                url: "https://tiendanatural2020.herokuapp.com/api/user/register",
+                                type: "POST",
+                                dateType: "json",
+                                data: datos,
+                                success: function (respuesta) {
+                                    ons.notification.toast("El usuario se registro correctamente", { "timeout": 3000 });
+
+                                    var usuario = respuesta;
+                                    sessionStorage.setItem("usr", usuario);
+                                    var nav = document.getElementById("nav");
+                                    nav.pushPage("t_productos");
+                                },
+
+                                error: function (xml, err, status) {
+                                    ons.notification.toast(xml.responseJSON.data.error.errors.email.message, { "timeout": 3000 });
+                                    // Este msj nos comunica si se repite el mail, o si el formato no es el correcto
+                                    // ons.notification.toast(xml.responseJSON.reason, { "timeout": 3000 });  
+                                    // Este error segun la API nos avisa que la contraseña deberia tener 8 caracteres como minimo
+                                    // genere una validacion al principio del try, ver si se puede usar el mensaje mismo de la API
+                                }
+                            });
+
+                        } catch (e) {
+                            ons.notification.toast(e, { "timeout": 3000 });
+                        }
+
+                    });
+                }
+
+            </script>
+
+            <ons-card>
+                <div class="title">
+                    <h1 style="color: green">Registro de nuevos usuarios</h1>
+                </div>
+
+                <label for="email">Email:</label>
+                <p><input class="text-input text-input--material" type="text" id="email"></p>
+                <label for="password">Contrase&ntilde;a:</label>
+                <p><input class="text-input text-input--material" type="password" id="password"></p>
+                <ons-button id="btn_registrar" style="background-color: green;">Registrarse</ons-button>
+            </ons-card>
         </ons-page>
     </template>
 
-    <!-- Login -->
-    <template id="t_login">
-        <ons-page id="p_login">
-            <h1>Login</h1>
-            <label for="l_email">Email:</label>
-            <p><input class="text-input text-input--material" type="text" id="l_email"></p>
-            <label for="l_password">Contrase&ntilde;a:</label>
-            <p><input class="text-input text-input--material" type="password" id="l_password"></p>
-            <ons-button id="btn_login">Log in</ons-button>
-            <ons-button id="btn_registrarme" modifier="quiet">Registrarme</ons-button>
-            <!-- No entiendo por que hay dos botones, y yo les pondria ingresar para no confundir con el registro -->
-
-        </ons-page>
-    </template>
+    
 
 
     <!-- Listado de Productos con Filtros -->
