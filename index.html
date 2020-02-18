@@ -25,7 +25,7 @@
             </p>
         </div>
     </ons-modal> -->
-    
+
     <ons-navigator page="t_inicio" id="nav"></ons-navigator>
 
     <!-- Login -->
@@ -39,7 +39,8 @@
                     <!-- <label for="l_email">Email:</label> -->
                     <p><input class="text-input text-input--material" type="text" id="l_email" placeholder="Email"></p>
                     <!-- <label for="l_password">Contrase&ntilde;a:</label> -->
-                    <p><input class="text-input text-input--material" type="password" id="l_password" placeholder="Contrase&ntilde;a"></p>
+                    <p><input class="text-input text-input--material" type="password" id="l_password"
+                            placeholder="Contrase&ntilde;a"></p>
                     <ons-button id="btn_iniciar" style="background-color: green;">Ingresar</ons-button>
                 </div>
                 <div class="content">
@@ -89,10 +90,10 @@
                                 },
 
                                 error: function (xml, err, status) {
-                                    if (xml.responseJSON.data){
+                                    if (xml.responseJSON.data) {
                                         ons.notification.toast(xml.responseJSON.data.error.errors.email.message, { "timeout": 3000 });
                                     } else {
-                                        ons.notification.toast(xml.responseJSON.reason, { "timeout": 3000 });  
+                                        ons.notification.toast(xml.responseJSON.reason, { "timeout": 3000 });
                                     }
                                 }
                             });
@@ -118,20 +119,20 @@
         </ons-page>
     </template>
 
-    
+
     <!-- Listado de Productos con Filtros -->
     <template id="t_productos">
         <ons-page id="p_productos">
             <script>
-                /*ons.getScriptPage().onInit = function () {
+                ons.getScriptPage().onInit = function () {
                     // Acceder a un producto particular
-                    $(document).on("Click", ".listado_productos"), function(){
+                    $(document).on("click", ".listado_productos", function () {
                         var id_local = $(this).data("id");
                         var nav = document.getElementById("nav");
                         //  Redireccionar a informacion de un producto
-                        nav.pushPage("t_infoproducto", {data:{id:id_local}});
-                    }
-                }*/
+                        nav.pushPage("t_infoproducto", { data: { id: id_local } });
+                    });
+                }
                 ons.getScriptPage().onShow = function () {
 
                     var usuario = sessionStorage.getItem("usr");
@@ -147,7 +148,7 @@
                             var item = "";
                             $.each(respuesta, function (k, producto) {
                                 item = '<ons-list-item modifier="chevron longdivider" tappable tap-background-color="#3ED47A"\
-                                 class="listado_locales" data-id="'+ producto._id + '"><div class="left"><img class="list-item__thumbnail"\
+                                 class="listado_productos" data-id="'+ producto._id + '"><div class="left"><img class="list-item__thumbnail"\
                                      src="'+ producto.photo + '"></div>\
                                 <div class="center">\
                                 <span class="list-item__title">'+ producto.name + '</span>\
@@ -186,6 +187,30 @@
                 }
                 ons.getScriptPage().onShow = function () {
                     var id_producto = this.data._id;
+
+                    $.ajax({
+                        url: "https://tiendanatural2020.herokuapp.com/api/product/all",
+                        type: "GET",
+                        dataType: "json",
+                        success: function (respuesta) {
+                            $.each(respuesta, function (k, producto) {
+                                if (id_producto = producto._id) {
+                                    $("#producto_imagen").attr("src", producto.photo);
+                                    $("#producto_nombre").text(producto.name);
+                                    $("#producto_descripcion").text(producto.description);
+                                    //$("#producto_direccion").html('<ons-icon icon="fa-map-marked"></ons-icon> ' + local.direccion);
+                                    $("#producto_precio").html('<ons-icon icon="fa-price"></ons-icon> ' + producto.price);
+                                }
+
+                            });
+
+
+                        },
+                        error: function (xml, err, status) {
+                            alert("Error");
+                            //ons.notification.toast(xml.responseJSON.descripcion, { "timeout": 3000 });
+                        }
+                    });
 
                     // Pendiente, surge la duda ya que no tenemos url API de info por producto
                     // Supongo que se hara un each y mostraremos por el id que traemos y buscar el id
