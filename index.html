@@ -18,6 +18,14 @@
 </head>
 
 <body>
+    <!-- <ons-modal direction="up" id="loading"> 
+        <div style="text-align: center">
+            <p>
+                <ons-icon icon="md-spinner" size="28px" spin></ons-icon>
+            </p>
+        </div>
+    </ons-modal> -->
+    
     <ons-navigator page="t_inicio" id="nav"></ons-navigator>
 
     <!-- Login -->
@@ -56,13 +64,12 @@
                             if (!ema) {
                                 throw "Ingrese email para continuar";
                                 //pregunta: de donde sale la validacion que obliga que sea formato de mail?
+                                // Sofi! Es una muy buena pregunta, lo raro que lo valida, pregunta para hacer al profe!!
                             }
                             if (!pwd) {
                                 throw "Ingrese contrase&ntilde;a para continuar";
                             }
-                            if (pwd.length < 8) {
-                                throw "La contrase&ntilde;a debe contener 8 caracteres como m&iacute;nimo";
-                            }
+                            // Elimine la validación de 8 caracteres, ahora la da mismo en "error", ya quedo funcionando
 
                             // Invocar API POST usuario
                             datos = { "email": ema, "password": pwd };
@@ -82,23 +89,21 @@
                                 },
 
                                 error: function (xml, err, status) {
-                                    ons.notification.toast(xml.responseJSON.data.error.errors.email.message, { "timeout": 3000 });
-                                    // Este msj nos comunica si se repite el mail, o si el formato no es el correcto
-                                    // ons.notification.toast(xml.responseJSON.reason, { "timeout": 3000 });  
-                                    // Este error segun la API nos avisa que la contraseña deberia tener 8 caracteres como minimo
-                                    // genere una validacion al principio del try, ver si se puede usar el mensaje mismo de la API
+                                    if (xml.responseJSON.data){
+                                        ons.notification.toast(xml.responseJSON.data.error.errors.email.message, { "timeout": 3000 });
+                                    } else {
+                                        ons.notification.toast(xml.responseJSON.reason, { "timeout": 3000 });  
+                                    }
                                 }
                             });
 
                         } catch (e) {
                             ons.notification.toast(e, { "timeout": 3000 });
                         }
-
                     });
                 }
 
             </script>
-
             <ons-card>
                 <div class="title">
                     <h1 style="color: green">Registro de nuevos usuarios</h1>
@@ -114,8 +119,6 @@
     </template>
 
     
-
-
     <!-- Listado de Productos con Filtros -->
     <template id="t_productos">
         <ons-page id="p_productos">
@@ -150,6 +153,7 @@
                                 <span class="list-item__title">'+ producto.name + '</span>\
                                 <span class="list-item__subtitle">'+ producto.description + '</span>\
                                 <span class="list-item__subtitle">$ '+ producto.price + '</span>\
+                                <span class="list-item__subtitle">Stock en '+ producto.branches.length + ' sucursales</span>\
                                 </div>\
                                 </ons-list-item>';
                                 $("#l_listado").append(item);
@@ -158,7 +162,6 @@
                         error: function (xml, err, status) {
                             ons.notification.toast(xml.responseJSON.data.error.errors.email.message, { "timeout": 3000 });
                         }
-
                     });
                 }
             </script>
@@ -170,6 +173,7 @@
             </section>
         </ons-page>
     </template>
+
 
     <!-- Mostrar detalle de la busqueda realizada -->
     <template id="t_infoproducto">
@@ -184,6 +188,10 @@
                     var id_producto = this.data._id;
 
                     // Pendiente, surge la duda ya que no tenemos url API de info por producto
+                    // Supongo que se hara un each y mostraremos por el id que traemos y buscar el id
+                    // en la API
+                    // Aca vamos a mostrar un mapa donde muestre los locales donde se encuentra disponible
+                    // el producto seleccionado
 
 
 
