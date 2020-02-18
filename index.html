@@ -18,6 +18,13 @@
 </head>
 
 <body>
+    <ons-modal direction="up" id="cargando">
+        <div style="text-align: center">
+                <p>
+                <ons-icon icon="md-spinner" size="28px" spin></ons-icon>
+                </p>
+        </div>
+    </ons-modal>
     <!-- <ons-modal direction="up" id="loading"> 
         <div style="text-align: center">
             <p>
@@ -223,6 +230,14 @@
                 }
             </script>
             <section>
+                <ons-toolbar>
+                    <div class="right">
+                        <ons-toolbar-button><ons-back-button></ons-back-button></ons-toolbar-button>
+                    </div>
+                    <div class="center">
+                        Info Local
+                    </div>
+                </ons-toolbar>
                 <ons-card>
                     <img id="producto_imagen" src="" style="width: 100%">
                     <div class="title">

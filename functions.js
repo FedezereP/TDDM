@@ -2,6 +2,7 @@ ons.ready(function () {
     $("#btn_iniciar").on("click", function () {
         var ema = $("#l_email").val();
         var pwd = $("#l_password").val();
+        $("#cargando").show();
 
         try {
             if (!ema) {
@@ -30,7 +31,11 @@ ons.ready(function () {
 
                 error: function (xml, err, status) {
                     ons.notification.toast(xml.responseJSON.name, { "timeout": 3000 });
-                }
+                },
+                complete:function()   {
+                    $("#cargando").hide();
+                } 
+                
             });
 
         } catch (e) {
