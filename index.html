@@ -20,9 +20,9 @@
 <body>
     <ons-modal direction="up" id="cargando">
         <div style="text-align: center">
-                <p>
+            <p>
                 <ons-icon icon="md-spinner" size="28px" spin></ons-icon>
-                </p>
+            </p>
         </div>
     </ons-modal>
     <!-- <ons-modal direction="up" id="loading"> 
@@ -205,8 +205,7 @@
                                     $("#producto_imagen").attr("src", producto.photo);
                                     $("#producto_nombre").text(producto.name);
                                     $("#producto_descripcion").text(producto.description);
-                                    //$("#producto_direccion").html('<ons-icon icon="fa-map-marked"></ons-icon> ' + local.direccion);
-                                    $("#producto_precio").html('<ons-icon icon="fa-price"></ons-icon> ' + producto.price);
+                                    $("#producto_precio").html('<ons-icon icon="fa-tags"></ons-icon> $ ' + producto.price);
                                 }
 
                             });
@@ -231,11 +230,13 @@
             </script>
             <section>
                 <ons-toolbar>
-                    <div class="right">
-                        <ons-toolbar-button><ons-back-button></ons-back-button></ons-toolbar-button>
+                    <div class="left">
+                        <ons-toolbar-button>
+                            <ons-back-button></ons-back-button>
+                        </ons-toolbar-button>
                     </div>
                     <div class="center">
-                        Info Local
+                        Info Producto
                     </div>
                 </ons-toolbar>
                 <ons-card>
