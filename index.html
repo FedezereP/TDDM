@@ -65,6 +65,9 @@
                         <ons-icon icon="eye" id="ojitoSi"></ons-icon>
                     </p>
                     <ons-button id="btn_iniciar" style="background-color: green;">Ingresar</ons-button>
+                    <p>
+                        <ons-switch checked id="recordar"></ons-switch> Recordar contraseña
+                    </p>
                 </div>
                 <div class="content">
                     <button id="btn_registrar" class="button button--material--flat" style="color: green">Crear una
@@ -78,9 +81,11 @@
     <!-- Registro de usuarios -->
     <template id="t_registro">
         <ons-page id="p_registro">
-            <!-- <script> 
+            <script> 
                 ons.getScriptPage().onInit = function () {
-                    $("#btn_registrarme").on("click", function () {
+                    //$(document).on("click", "#btn_login", function () {
+                        $(document).on("click", "#btn_registrarme", function () {
+                    //    $("#btn_registrarme").on("click", function () {
                         var ema = $("#email").val();
                         var pwd = $("#password").val();
 
@@ -124,7 +129,7 @@
                     }); 
                 }
 
-            </script> -->
+            </script>
             <ons-card>
                 <div class="title">
                     <h1 style="color: green">Registro de nuevos usuarios</h1>
