@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<widget xmlns   = "http://www.w3.org/ns/widgets"
+        xmlns:gap   = "http://phonegap.com/ns/1.0"
+        id          = "com.marcelocaiafa.app"
+        version     = "1.0.0" >
+    <name>ProductosNaturales</name>
+    <description>
+        ProductosNaturales es una aplicaci&oacute;n que permite a los usuarios buscar sucursales donde se venden determinados productos naturales.
+    </description>
+    <author href="http://marcelocaiafa.com/" email="contact@marcelocaiafa.com">
+      Sofia Bruno y Federico P&eacute;rez 
+    </author>
+   
+     <!-- plugins -->
+    <plugin name="cordova-plugin-whitelist" spec="~1.3.3" />
+    <plugin name="cordova-plugin-geolocation" spec="~4.0.2" />
+    <plugin name="cordova-plugin-barcodeScanner" spec="" />
+    <!-- network access -->
+    <access origin="*" />
+    <allow-intent href="http://*/*" />
+    <allow-intent href="https://*/*" />
+    <allow-intent href="tel:*" />
+    <allow-intent href="sms:*" />
+    <allow-intent href="mailto:*" />
+    <allow-intent href="geo:*" />
+    <!-- Generar solo para Android -->
+    <platform name="android" />
+</widget>
