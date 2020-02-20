@@ -24,7 +24,11 @@ window.fn.load = function(template, page, params) {
 
 
 ons.ready(function () {
+    $("#ojitoSi").hide();
+
     $("#btn_iniciar").on("click", function () {
+
+        $("#ojitoSi").hide();
         var ema = $("#l_email").val();
         var pwd = $("#l_password").val();
         
@@ -66,6 +70,28 @@ ons.ready(function () {
             ons.notification.toast(e, { "timeout": 3000 });
         }
 
+    });
+
+    $(document).on("click", "#ojito", function () {
+        var x = document.getElementById("l_password");
+        if (x.type === "password") {
+            x.type = "text";
+            $("#ojito").hide();
+            $("#ojitoSi").show();
+        } else {
+            x.type = "password";
+        }
+    });
+
+    $(document).on("click", "#ojitoSi", function () {
+        var x = document.getElementById("l_password");
+        if (x.type === "text") {
+            x.type = "password";
+            $("#ojito").show();
+            $("#ojitoSi").hide();
+        } else {
+            x.type = "password";
+        }
     });
 
     $("#btn_registrar").on("click", function () {
