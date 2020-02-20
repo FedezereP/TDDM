@@ -71,13 +71,10 @@
                         try {
                             if (!ema) {
                                 throw "Ingrese email para continuar";
-                                //pregunta: de donde sale la validacion que obliga que sea formato de mail?
-                                // Sofi! Es una muy buena pregunta, lo raro que lo valida, pregunta para hacer al profe!!
                             }
                             if (!pwd) {
                                 throw "Ingrese contrase&ntilde;a para continuar";
                             }
-                            // Elimine la validación de 8 caracteres, ahora la da mismo en "error", ya quedo funcionando
 
                             // Invocar API POST usuario
                             datos = { "email": ema, "password": pwd };
@@ -214,7 +211,7 @@
                         },
                         error: function (xml, err, status) {
                             alert("Error");
-                            //ons.notification.toast(xml.responseJSON.descripcion, { "timeout": 3000 });
+                            //ons.notification.toast(xml.responseJSON, { "timeout": 3000 });
                         }
                     });
 
@@ -228,17 +225,17 @@
 
                 }
             </script>
+            <ons-toolbar>
+                <div class="left">
+                    <ons-toolbar-button>
+                        <ons-back-button></ons-back-button>
+                    </ons-toolbar-button>
+                </div>
+                <div class="center">
+                    Info Producto
+                </div>
+            </ons-toolbar>
             <section>
-                <ons-toolbar>
-                    <div class="left">
-                        <ons-toolbar-button>
-                            <ons-back-button></ons-back-button>
-                        </ons-toolbar-button>
-                    </div>
-                    <div class="center">
-                        Info Producto
-                    </div>
-                </ons-toolbar>
                 <ons-card>
                     <img id="producto_imagen" src="" style="width: 100%">
                     <div class="title">
