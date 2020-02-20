@@ -26,7 +26,29 @@
         </div>
     </ons-modal>
 
-    <ons-navigator page="t_inicio" id="nav"></ons-navigator>
+    <ons-splitter>
+        <ons-splitter-side id="menu" side="left" width="220px" collapse swipeable>
+            <ons-page>
+                <ons-list>
+                    <ons-list-item onclick="fn.load('t_productos','p_productos')" tappable
+                        tap-background-color="#3ED47A">
+                        Productos
+                    </ons-list-item>
+                    <ons-list-item onclick="fn.load('t_busquedas','p_busquedas')" tappable
+                        tap-background-color="#3ED47A">
+                        Busquedas
+                    </ons-list-item>
+                    <ons-list-item id="btn_logout" tappable tap-background-color="#3ED47A">
+                        Salir
+                    </ons-list-item>
+                </ons-list>
+            </ons-page>
+        </ons-splitter-side>
+        <ons-splitter-content id="content">
+            <ons-navigator page="t_inicio" id="nav"></ons-navigator>
+        </ons-splitter-content>
+    </ons-splitter>
+
 
     <!-- Login -->
     <template id="t_inicio">
@@ -127,7 +149,8 @@
                         var id_producto = $(this).data("id");
                         var nav = document.getElementById("nav");
                         //  Redireccionar a informacion de un producto
-                        nav.pushPage("t_infoproducto", { data: { id: id_producto } });
+                        // nav.pushPage("t_infoproducto", { data: { id: id_producto } });
+                        fn.load("t_infoproducto", "p_infoproducto", { data: { id: id_producto } })
                     });
                 }
                 ons.getScriptPage().onShow = function () {
@@ -164,6 +187,15 @@
                     });
                 }
             </script>
+            <ons-toolbar>
+                <div class="center">
+                    Productos
+                </div>
+                <div class="left">
+                    <ons-toolbar-button icon="fa-bars" onclick="fn.open()">
+                    </ons-toolbar-button>
+                </div>
+            </ons-toolbar>
             <section>
                 <h1>Listado de Productos</h1>
                 <p id="saludo"></p>
@@ -249,8 +281,21 @@
         </ons-page>
     </template>
 
-    <!-- Listado de busquedas realizadas por el usuario -->
 
+    <!-- Listado de busquedas realizadas por el usuario -->
+    <template id="t_busquedas">
+        <ons-page id="p_busquedas">
+            <ons-toolbar>
+                <div class="center">
+                    B&uacute;squedas
+                </div>
+                <div class="left">
+                    <ons-toolbar-button icon="fa-bars" onclick="fn.open()">
+                    </ons-toolbar-button>
+                </div>
+            </ons-toolbar>
+        </ons-page>
+    </template>
 
 
 

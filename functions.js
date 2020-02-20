@@ -1,3 +1,28 @@
+window.fn = {};
+
+window.fn.open = function() {
+  var menu = document.getElementById('menu');
+  menu.open();
+};
+
+window.fn.load = function(template, page, params) {
+  //var content = document.getElementById('content');
+  var menu = document.getElementById('menu');
+  //content.load(page)
+  //  .then(menu.close.bind(menu));
+  var nav = document.getElementById("nav");
+  nav.options = {animation:"lift",animationOptions:{duration: 1}};
+  menu.close();
+  for(i=0;i<nav.pages.length;i++){
+    if(nav.pages[i]["id"] == page){
+        nav.bringPageTop(i,params);
+        return;
+    }
+  }
+  nav.pushPage(template, params);
+};
+
+
 ons.ready(function () {
     $("#btn_iniciar").on("click", function () {
         var ema = $("#l_email").val();
