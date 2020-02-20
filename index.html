@@ -25,13 +25,6 @@
             </p>
         </div>
     </ons-modal>
-    <!-- <ons-modal direction="up" id="loading"> 
-        <div style="text-align: center">
-            <p>
-                <ons-icon icon="md-spinner" size="28px" spin></ons-icon>
-            </p>
-        </div>
-    </ons-modal> -->
 
     <ons-navigator page="t_inicio" id="nav"></ons-navigator>
 
@@ -62,7 +55,7 @@
     <!-- Registro de usuarios -->
     <template id="t_registro">
         <ons-page id="p_registro">
-            <script>
+            <!-- <script> 
                 ons.getScriptPage().onInit = function () {
                     $("#btn_registrarme").on("click", function () {
                         var ema = $("#email").val();
@@ -105,10 +98,10 @@
                         } catch (e) {
                             ons.notification.toast(e, { "timeout": 3000 });
                         }
-                    });
+                    }); 
                 }
 
-            </script>
+            </script> -->
             <ons-card>
                 <div class="title">
                     <h1 style="color: green">Registro de nuevos usuarios</h1>
@@ -131,16 +124,17 @@
                 ons.getScriptPage().onInit = function () {
                     // Acceder a un producto particular
                     $(document).on("click", ".listado_productos", function () {
-                        var id_local = $(this).data("id");
+                        var id_producto = $(this).data("id");
                         var nav = document.getElementById("nav");
                         //  Redireccionar a informacion de un producto
-                        nav.pushPage("t_infoproducto", { data: { id: id_local } });
+                        nav.pushPage("t_infoproducto", { data: { id: id_producto } });
                     });
                 }
                 ons.getScriptPage().onShow = function () {
 
                     var usuario = sessionStorage.getItem("usr");
                     usuario = JSON.parse(usuario);
+                    $("#l_listado").empty();
                     $("#saludo").html("Hola <strong>" + usuario.email + "</strong>");
 
                     $.ajax({
@@ -190,38 +184,35 @@
                     });
                 }
                 ons.getScriptPage().onShow = function () {
-                    var id_producto = this.data._id;
-
+                    var id_producto = this.data.id;
+                    $("#cargando").show();
                     $.ajax({
                         url: "https://tiendanatural2020.herokuapp.com/api/product/all",
                         type: "GET",
                         dataType: "json",
                         success: function (respuesta) {
                             $.each(respuesta, function (k, producto) {
-                                if (id_producto = producto._id) {
+                                if (id_producto == producto._id) {
                                     $("#producto_imagen").attr("src", producto.photo);
                                     $("#producto_nombre").text(producto.name);
                                     $("#producto_descripcion").text(producto.description);
                                     $("#producto_precio").html('<ons-icon icon="fa-tags"></ons-icon> $ ' + producto.price);
                                 }
-
                             });
-
-
                         },
                         error: function (xml, err, status) {
                             alert("Error");
-                            //ons.notification.toast(xml.responseJSON, { "timeout": 3000 });
+                            // Que error se muestra en este caso? porque en realidad siempre va a entrar al success
+                            // no me doy cuenta, porque no entraria... o que error mostrar
+                            // ons.notification.toast(xml.responseJSON, { "timeout": 3000 });
+                        },
+                        complete: function () {
+                            $("#cargando").hide();
                         }
                     });
 
-                    // Pendiente, surge la duda ya que no tenemos url API de info por producto
-                    // Supongo que se hara un each y mostraremos por el id que traemos y buscar el id
-                    // en la API
                     // Aca vamos a mostrar un mapa donde muestre los locales donde se encuentra disponible
                     // el producto seleccionado
-
-
 
                 }
             </script>
@@ -237,6 +228,7 @@
             </ons-toolbar>
             <section>
                 <ons-card>
+                    <!-- <p id="prueba"></p> -->
                     <img id="producto_imagen" src="" style="width: 100%">
                     <div class="title">
                         <p id="producto_nombre"></p>
