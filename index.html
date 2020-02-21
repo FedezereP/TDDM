@@ -15,6 +15,13 @@
     <script src="https://unpkg.com/onsenui/js/onsenui.min.js"></script>
     <script src="functions.js"></script>
     <link rel="stylesheet" href="styles.css">
+    <!--mapa-->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
+        integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+        crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
+        integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
+        crossorigin=""></script>
 </head>
 
 <body>
@@ -81,11 +88,11 @@
     <!-- Registro de usuarios -->
     <template id="t_registro">
         <ons-page id="p_registro">
-            <script> 
+            <script>
                 ons.getScriptPage().onInit = function () {
                     //$(document).on("click", "#btn_login", function () {
-                        $(document).on("click", "#btn_registrarme", function () {
-                    //    $("#btn_registrarme").on("click", function () {
+                    $(document).on("click", "#btn_registrarme", function () {
+                        //    $("#btn_registrarme").on("click", function () {
                         var ema = $("#email").val();
                         var pwd = $("#password").val();
 
@@ -126,7 +133,7 @@
                         } catch (e) {
                             ons.notification.toast(e, { "timeout": 3000 });
                         }
-                    }); 
+                    });
                 }
 
             </script>
@@ -218,7 +225,66 @@
             <script>
                 ons.getScriptPage().onInit = function () {
                     $(document).on("click", "#btn_qr", function () {
-                        ons.notification.alert("Click en QR", { title: "SCAN QR" });
+                        // Aqui se ejecuta el SCAN
+                        cordova.plugins.barcodeScanner.scan(
+                            function (result) {
+                                try {
+                                    //si no cancela usuario, por ejemplo back button.
+                                    if (result.cancelled) {
+                                        throw "Cancelado por usuario";
+                                    }
+                                    //es un codigo pero no QR.
+                                    if (result.format != "QR_CODE") {
+                                        throw "Se espera un QR!";
+                                    }
+                                    //dentro de result.text tengo texto del QR escaneado, en este caso tiene urls
+                                    //por ejemplo: http://api.marcelocaiafa.com/local?id=1 si se escaneo local Biga desde computadora en
+                                    //http://locales.marcelocaiafa.com/
+                                    var id_producto = this.data.id;
+                                    var url = result.text;
+                                    $("#cargando").show();
+                                    $.ajax({
+                                        url: url,
+                                        type: "GET",
+                                        dataType: "json",
+                                        success: function (respuesta) {
+                                            $.each(respuesta, function (k, producto) {
+                                                if (id_producto == producto._id) {
+                                                    $("#producto_imagen").attr("src", producto.photo);
+                                                    $("#producto_nombre").text(producto.name);
+                                                    $("#producto_descripcion").text(producto.description);
+                                                    $("#producto_precio").html('<ons-icon icon="fa-tags"></ons-icon> $ ' + producto.price);
+                                                }
+                                            });
+                                        },
+                                        error: function (xml, err, status) {
+                                            alert("Error");
+                                            // Que error se muestra en este caso? porque en realidad siempre va a entrar al success
+                                            // no me doy cuenta, porque no entraria... o que error mostrar
+                                            // ons.notification.toast(xml.responseJSON, { "timeout": 3000 });
+                                        },
+                                        complete: function () {
+                                            $("#cargando").hide();
+                                        }
+                                    });
+                                }
+                                catch (e) {
+                                    ons.notification.toast(e, { "timeout": 3000 });
+                                }
+                            },
+                            function (error) {
+                                ons.notification.toast("Error durante escaneo " + error, { "timeout": 3000 });
+                            },
+                            {
+                                //Algunas configuraciones, 
+                                //https://www.npmjs.com/package/phonegap-plugin-barcodescanner
+                                preferFrontCamera: true, // camara frontal por defecto
+                                showFlipCameraButton: true, // mostrar switch de camara
+                                torchOn: true, // lanzar scan con linterna
+                                prompt: "Coloque QR dentro de la zona de escaneo para obtener info de producto", //mensaje que se muestra en pantalla
+                                orientation: "portrait", // (portrait|landscape)
+                            }
+                        );
                     });
                 }
                 ons.getScriptPage().onShow = function () {
@@ -247,12 +313,33 @@
                         complete: function () {
                             $("#cargando").hide();
                         }
+
+
                     });
 
                     // Aca vamos a mostrar un mapa donde muestre los locales donde se encuentra disponible
                     // el producto seleccionado
 
                 }
+                ons.getScriptPage().onShow = function () {
+                    navigator.geolocation.getCurrentPosition(function (position) {
+                        //success
+                        //map es el id del div.
+                        var map = L.map('map').setView([position.coords.latitude, position.coords.longitude], 13);
+                        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                        }).addTo(map);
+
+                        L.marker([position.coords.latitude, position.coords.longitude]).addTo(map)
+                            .bindPopup(device.model + ' ' + device.manufacturer)
+                            .openPopup();
+                    },
+                        function (error) {
+                            ons.notification.toast(error.message, { "timeout": 3000 });
+                        },
+                    );
+
+                };
             </script>
             <ons-toolbar>
                 <div class="left">
@@ -266,7 +353,6 @@
             </ons-toolbar>
             <section>
                 <ons-card>
-                    <!-- <p id="prueba"></p> -->
                     <img id="producto_imagen" src="" style="width: 100%">
                     <div class="title">
                         <p id="producto_nombre"></p>
@@ -279,6 +365,9 @@
                             </ons-list-item>
                         </ons-list>
                     </div>
+                    <section>
+                        <div id="map"></div>
+                    </section>
                 </ons-card>
                 <p>
                     <ons-button id="btn_qr" modifier="large--cta">SCAN QR</ons-button>

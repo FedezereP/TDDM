@@ -24,6 +24,17 @@ window.fn.load = function(template, page, params) {
 
 
 ons.ready(function () {
+    $(document).on("offline",function(){
+        ons.notification.toast("No hay Internet!", {"timeout":3000});
+        //vibrar
+        navigator.vibrate(3000);
+    });
+    
+    $(document).on("online", function(){
+        tipo_conexion = navigator.connection.type;
+        ons.notification.toast("Hay Internet! "+tipo_conexion, {"timeout":3000});
+    });
+
     $("#ojitoSi").hide();
 
     $("#btn_iniciar").on("click", function () {
