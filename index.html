@@ -206,6 +206,9 @@
                         });
                     });
 
+                    // lo veo muy bien! deberiamos llevarlo a ajax, llevarlo a coincidir con el producto.name y volver a pegar 
+                    // los nuevos datos en lista que teniamos, para que se sobreescriba
+
                 }
             </script>
             <ons-toolbar>
@@ -249,18 +252,19 @@
                                     //por ejemplo: http://api.marcelocaiafa.com/local?id=1 si se escaneo local Biga desde computadora en
                                     //http://locales.marcelocaiafa.com/
                                     var id_producto = this.data.id;
-                                    var url = result.text;
+                                    var producto_qr = result.text; // Supongo que seria asi la manera de llamar al texto, probar!!!!! 
                                     $("#cargando").show();
                                     $.ajax({
-                                        url: url,
+                                        url: "https://tiendanatural2020.herokuapp.com/api/product/all",
                                         type: "GET",
                                         dataType: "json",
                                         success: function (respuesta) {
                                             $.each(respuesta, function (k, producto) {
-                                                if (id_producto == producto._id) {
+                                                if (producto_qr._id == id_producto == producto._id) {
                                                     $("#producto_imagen").attr("src", producto.photo);
                                                     $("#producto_nombre").text(producto.name);
                                                     $("#producto_descripcion").text(producto.description);
+                                                    $("#producto_ingredientes").text(producto_qr.ingredientes);
                                                     $("#producto_precio").html('<ons-icon icon="fa-tags"></ons-icon> $ ' + producto.price);
                                                 }
                                             });
@@ -348,6 +352,7 @@
                     </div>
                     <div class="content">
                         <p id="producto_descripcion"></p>
+                        <p id="producto_ingredientes"></p>
                         <ons-list>
                             <ons-list-item>
                                 <span id="producto_precio"></span>

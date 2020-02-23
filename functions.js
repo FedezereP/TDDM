@@ -122,6 +122,11 @@ ons.ready(function () {
 
     });
 
+    $("#btn_logout").on("click", function () {
+        
+
+    });
+
     // $("#btn_registrarme").on("click", function () {
     //     var ema = $("#email").val();
     //     var pwd = $("#password").val();
