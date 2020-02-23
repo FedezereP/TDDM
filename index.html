@@ -201,13 +201,16 @@
 
                     $("#buscador").on("keyup", function () {
                         var value = $(this).val().toLowerCase();
-                        $("#l_listado").filter(function () {
+                        $("#l_listado *").filter(function () {
                             $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
                         });
-                    });
+                    });                   
+                     
+                    
 
                     // lo veo muy bien! deberiamos llevarlo a ajax, llevarlo a coincidir con el producto.name y volver a pegar 
                     // los nuevos datos en lista que teniamos, para que se sobreescriba
+                    // esta raroo
 
                 }
             </script>
@@ -223,7 +226,8 @@
             <section>
                 <h1>Listado de Productos</h1>
                 <p id="saludo"></p>
-                <input type="search" value="" placeholder="Search" class="search-input" id="buscador" style="width: 100%;">
+                <input type="search" value="" placeholder="Search" class="search-input" id="buscador"
+                    style="width: 100%;">
                 <ons-list id="l_listado"></ons-list>
             </section>
         </ons-page>
