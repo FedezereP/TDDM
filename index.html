@@ -207,11 +207,7 @@
                         });
                     });
 
-
-
-                    // lo veo muy bien! deberiamos llevarlo a ajax, llevarlo a coincidir con el producto.name y volver a pegar 
-                    // los nuevos datos en lista que teniamos, para que se sobreescriba
-                    // esta raroo
+                    // Tenemos que mejorar el filtro, el mismo debe ser por nombre del producto
 
                 }
             </script>
@@ -258,6 +254,7 @@
                                     //http://locales.marcelocaiafa.com/
                                     var id_producto = this.data.id;
                                     var producto_qr = result.text; // Supongo que seria asi la manera de llamar al texto, probar!!!!! 
+                                    producto_qr = JSON.parse(producto_qr);
                                     $("#cargando").show();
                                     $.ajax({
                                         url: "https://tiendanatural2020.herokuapp.com/api/product/all",
