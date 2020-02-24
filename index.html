@@ -159,6 +159,7 @@
                 ons.getScriptPage().onInit = function () {
                     // Acceder a un producto particular
                     $(document).on("click", ".listado_productos", function () {
+                        $("#buscador").val("");
                         var id_producto = $(this).data("id");
                         var nav = document.getElementById("nav");
                         //  Redireccionar a informacion de un producto
@@ -204,9 +205,9 @@
                         $("#l_listado *").filter(function () {
                             $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
                         });
-                    });                   
-                     
-                    
+                    });
+
+
 
                     // lo veo muy bien! deberiamos llevarlo a ajax, llevarlo a coincidir con el producto.name y volver a pegar 
                     // los nuevos datos en lista que teniamos, para que se sobreescriba
