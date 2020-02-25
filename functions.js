@@ -142,11 +142,26 @@ ons.ready(function () {
 
     });
 
-    $("#btn_logout").on("click", function () {
+    /*$("#btn_logout").on("click", function () {
+        //elimino session
+        sessionStorage.clear();
+        //elimino localstorage
+        localStorage.clear();
+        //muestro mensaje y redirecciono hacia login
+        ons.notification.toast("Sesi&oacute;n ha finalizado correctamte", {timeout:3000});
+        fn.load("t_inicio", "p_inicio");
         
-        
-    });
+    });*/
 
+    $(document).on("click", "#btn_logout", function () {
+        //elimino session
+        sessionStorage.clear();
+        //elimino localstorage
+        localStorage.clear();
+        //muestro mensaje y redirecciono hacia login
+        ons.notification.toast("Sesi&oacute;n ha finalizado correctamte", {timeout:3000});
+        fn.load("t_inicio", "p_inicio");
+    });
     
 
 
