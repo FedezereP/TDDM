@@ -3,7 +3,15 @@ section{
     padding-right: 8px;
 }
 
-.content{
+.content, h1{
     text-align: center;
+}
+
+.search-input{
+    background-color: #90FCA6;
+}
+
+#saludo{
+    text-align: right;
 }
 

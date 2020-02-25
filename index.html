@@ -156,6 +156,7 @@
     <template id="t_productos">
         <ons-page id="p_productos">
             <script>
+                var productos = "";
                 ons.getScriptPage().onInit = function () {
                     // Acceder a un producto particular
                     $(document).on("click", ".listado_productos", function () {
@@ -166,13 +167,32 @@
                         // nav.pushPage("t_infoproducto", { data: { id: id_producto } });
                         fn.load("t_infoproducto", "p_infoproducto", { data: { id: id_producto } })
                     });
+
+                    var nombre_producto = "";
+                    $(document).on('input', "#buscador", function () {
+                        //paso a minuscula lo que ingresa el usuario.
+                        var buscar = $(this).val().toLowerCase();
+                        var resultado_busqueda = [];
+                        //busco en mensajes, nombres que coincidan en variable mensajes cargada en success de listado de mensajes linea 310 .
+                        $.each(productos, function (k, producto) {
+                            nombre_producto = producto.name.toLowerCase();
+                            if (nombre_producto.indexOf(buscar) != -1) {
+                                //si coincide lo agrego el objeto mensaje a array resultado.
+                                resultado_busqueda.push(producto);
+                            }
+                        });
+                        //creo listado con resultado.
+                        crear_listado_productos(resultado_busqueda)
+                    });
+
                 }
                 ons.getScriptPage().onShow = function () {
 
                     var usuario = sessionStorage.getItem("usr");
                     usuario = JSON.parse(usuario);
                     $("#l_listado").empty();
-                    $("#saludo").html("Hola <strong>" + usuario.email + "</strong>");
+                    $("#cargando").show();
+                    $("#saludo").html("Hola <strong><i>" + usuario.email + "</i></strong>");
 
                     $.ajax({
                         url: "https://tiendanatural2020.herokuapp.com/api/product/all",
@@ -180,35 +200,23 @@
                         dataType: "json",
                         success: function (respuesta) {
                             console.log(respuesta);
-                            var item = "";
-                            $.each(respuesta, function (k, producto) {
-                                item = '<ons-list-item modifier="chevron longdivider" tappable tap-background-color="#3ED47A"\
-                                 class="listado_productos" data-id="'+ producto._id + '"><div class="left"><img class="list-item__thumbnail"\
-                                     src="'+ producto.photo + '"></div>\
-                                <div class="center">\
-                                <span class="list-item__title">'+ producto.name + '</span>\
-                                <span class="list-item__subtitle">'+ producto.description + '</span>\
-                                <span class="list-item__subtitle">$ '+ producto.price + '</span>\
-                                <span class="list-item__subtitle">Stock en '+ producto.branches.length + ' sucursales</span>\
-                                </div>\
-                                </ons-list-item>';
-                                $("#l_listado").append(item);
-                            });
+                            productos = respuesta
+                            crear_listado_productos(productos);
                         },
                         error: function (xml, err, status) {
                             ons.notification.toast(xml.responseJSON.data.error.errors.email.message, { "timeout": 3000 });
+                        },
+                        complete: function () {
+                            $("#cargando").hide();
                         }
                     });
 
-                    $("#buscador").on("keyup", function () {
+                    /*$("#buscador").on("keyup", function () {
                         var value = $(this).val().toLowerCase();
                         $("#l_listado *").filter(function () {
                             $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
                         });
-                    });
-
-                    // Tenemos que mejorar el filtro, el mismo debe ser por nombre del producto
-
+                    });*/
                 }
             </script>
             <ons-toolbar>
@@ -223,8 +231,10 @@
             <section>
                 <h1>Listado de Productos</h1>
                 <p id="saludo"></p>
-                <input type="search" value="" placeholder="Search" class="search-input" id="buscador"
-                    style="width: 100%;">
+                <p>
+                    <ons-search-input style="width: 100%;" placeholder="Buscar" id="buscador"></ons-search-input>
+                </p>
+
                 <ons-list id="l_listado"></ons-list>
             </section>
         </ons-page>

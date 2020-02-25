@@ -22,6 +22,26 @@ window.fn.load = function(template, page, params) {
   nav.pushPage(template, params);
 };
 
+function crear_listado_productos(respuesta){
+    $("#l_listado").empty();
+    var item = "";
+    $.each(respuesta, function (k, producto) {
+        item = '<ons-list-item modifier="chevron longdivider" tappable tap-background-color="#3ED47A"\
+         class="listado_productos" data-id="'+ producto._id + '"><div class="left"><img class="list-item__thumbnail"\
+             src="'+ producto.photo + '"></div>\
+        <div class="center">\
+        <span class="list-item__title">'+ producto.name + '</span>\
+        <span class="list-item__subtitle">'+ producto.description + '</span>\
+        <span class="list-item__subtitle">$ '+ producto.price + '</span>\
+        <span class="list-item__subtitle">Stock en '+ producto.branches.length + ' sucursales</span>\
+        </div>\
+        </ons-list-item>';
+        $("#l_listado").append(item);
+    });
+
+}
+
+
 
 ons.ready(function () {
     $(document).on("offline",function(){
@@ -126,6 +146,9 @@ ons.ready(function () {
         
         
     });
+
+    
+
 
     // $("#btn_registrarme").on("click", function () {
     //     var ema = $("#email").val();
