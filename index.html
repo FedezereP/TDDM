@@ -326,6 +326,17 @@
                                     $("#producto_descripcion").text(producto.description);
                                     $("#producto_precio").html('<ons-icon icon="fa-tags"></ons-icon> $ ' + producto.price);
 
+                                    
+                                    var salida ="";
+                                    for (i = 0; i < producto.branches.length; i++) {
+                                        salida += producto.branches[i].name + "<br>";
+                                    }
+
+                                    $("#producto_geolo").html(salida);
+
+                                    
+
+
                                     navigator.geolocation.getCurrentPosition(function (pos) {
                                         //latitud, longitud de dispositivo.
                                         var lat = pos.coords.latitude;
@@ -344,8 +355,8 @@
                                         L.marker([lat, lng], { icon: usuario_icono }).addTo(map)
 
                                         //marcador de producto
-                                        L.marker([producto.branches.latitude, producto.branches.longitude], { icon: usuario_icono }).addTo(map)
-                                            .bindPopup(producto.branches.name)
+                                        L.marker([producto.branches[0].latitude, producto.branches[0].longitude], { icon: usuario_icono }).addTo(map)
+                                            .bindPopup(producto.branches[0].name)
                                             .openPopup();
 
                                         // la localizacion nuestra la vemos, no entiendo porque no vemos la de los locales
@@ -387,7 +398,9 @@
                         <p id="producto_nombre"></p>
                     </div>
                     <div class="content">
-                        <p id="producto_descripcion"></p>                     
+                        <p id="producto_descripcion"></p>
+                        
+
                         <!-- <p id="producto_ingredientes"></p> -->
                         <ons-list>
                             <ons-list-item>
@@ -395,6 +408,10 @@
                             </ons-list-item>
                         </ons-list>
                         <div id="map"></div>
+                         
+                        <!-- ayuda para llegar a las geolo -->
+                        <p>Locales donde hay stock</p>
+                        <p id="producto_geolo"></p>
                     </div>
                 </ons-card>
                 <p>
