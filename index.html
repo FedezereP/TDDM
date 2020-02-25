@@ -325,6 +325,36 @@
                                     $("#producto_nombre").text(producto.name);
                                     $("#producto_descripcion").text(producto.description);
                                     $("#producto_precio").html('<ons-icon icon="fa-tags"></ons-icon> $ ' + producto.price);
+
+                                    navigator.geolocation.getCurrentPosition(function (pos) {
+                                        //latitud, longitud de dispositivo.
+                                        var lat = pos.coords.latitude;
+                                        var lng = pos.coords.longitude;
+
+                                        var map = L.map('map').setView([lat, lng], 15);
+                                        //mapa
+                                        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                                            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                                        }).addTo(map);
+                                        //marcador de usuario
+                                        var usuario_icono = L.icon({
+                                            iconUrl: "img/i_am_here.png",
+                                            iconSize: [38, 38], // size of the icon
+                                        });
+                                        L.marker([lat, lng], { icon: usuario_icono }).addTo(map)
+
+                                        //marcador de producto
+                                        L.marker([producto.branches.latitude, producto.branches.longitude], { icon: usuario_icono }).addTo(map)
+                                            .bindPopup(producto.branches.name)
+                                            .openPopup();
+
+                                        // la localizacion nuestra la vemos, no entiendo porque no vemos la de los locales
+
+
+                                    }, function (error) {
+                                        alert(error.code);
+                                        alert(error.message);
+                                    });
                                 }
                             });
                         },
@@ -337,13 +367,7 @@
                         complete: function () {
                             $("#cargando").hide();
                         }
-
-
                     });
-
-                    // Aca vamos a mostrar un mapa donde muestre los locales donde se encuentra disponible
-                    // el producto seleccionado                   
-
                 };
             </script>
             <ons-toolbar>
@@ -364,7 +388,8 @@
                     </div>
                     <div class="content">
                         <p id="producto_descripcion"></p>
-                        <p id="producto_ingredientes"></p>
+                        <div id="map"></div>
+                        <!-- <p id="producto_ingredientes"></p> -->
                         <ons-list>
                             <ons-list-item>
                                 <span id="producto_precio"></span>
