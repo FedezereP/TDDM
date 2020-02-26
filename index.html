@@ -344,11 +344,15 @@
                                         }).addTo(map);
                                         //marcador de usuario
                                         var usuario_icono = L.icon({
-                                            iconUrl: "img/i_am_here.png",
+                                            iconUrl: "img/usuario_icono.png",
                                             iconSize: [38, 38], // size of the icon
                                         });
+                                        var locales_icono = L.icon({
+                                            iconUrl: "img/productosnaturales_icono.png",
+                                            iconSize: [38, 38], 
+                                        });
                                         L.marker([lat, lng], { icon: usuario_icono }).addTo(map)
-                                            .bindPopup("Aca estoy yo")
+                                            .bindPopup("Usted est&aacute; aqu&iacute;")
 
                                         //marcadores de donde está el producto
                                         
@@ -357,18 +361,11 @@
                                             var long= producto.branches[i].longitude;
                                             var nombreLugar = producto.branches[i].name;
 
-                                        L.marker([lat, long], { icon: usuario_icono }).addTo(map)
+                                        L.marker([lat, long], { icon: locales_icono }).addTo(map)
                                             .bindPopup(nombreLugar)
                                             .openPopup();
 
                                         }
-
-
-                                       
-
-                                        // la localizacion nuestra la vemos, no entiendo porque no vemos la de los locales
-
-
                                     }, function (error) {
                                         alert(error.code);
                                         alert(error.message);
@@ -406,18 +403,13 @@
                     </div>
                     <div class="content">
                         <p id="producto_descripcion"></p>
-
-
                         <!-- <p id="producto_ingredientes"></p> -->
                         <ons-list>
                             <ons-list-item>
                                 <span id="producto_precio"></span>
                             </ons-list-item>
                         </ons-list>
-                        <div id="map"></div>
-
-                    
-                        
+                        <div id="map"></div>              
                     </div>
                 </ons-card>
                 <p>
